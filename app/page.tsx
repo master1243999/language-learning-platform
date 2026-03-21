@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import Link from "next/link";
 
 const user = {
   name: "小明",
@@ -97,9 +99,10 @@ export default function Home() {
           <a href="#" className="flex flex-col items-center gap-1 text-emerald-900">
             首页
           </a>
-          <a href="/section" className="flex flex-col items-center gap-1 hover:text-emerald-900">
+          {/* 关键修改：链接改为 /courses */}
+          <Link href="/courses" className="flex flex-col items-center gap-1 hover:text-emerald-900">
             课程
-          </a>
+          </Link>
           <a href="/profile" className="flex flex-col items-center gap-1 hover:text-emerald-900">
             我的
           </a>
