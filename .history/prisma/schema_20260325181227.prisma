@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")  // 从 .env 文件读取数据库连接
+}
+
+// 以下模型定义保持不变（User, Course, Section 等）
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String
+  role          String    @default("student")  // "student" or "teacher"
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  progress      Progress[]
+  exercisesDone ExerciseRecord[]
+  accounts      Account[]
+  sessions      Session[]
+  assignmentsAsTeacher Assignment[] @relation("TeacherAssignments")
+  assignmentsAsStudent Assignment[] @relation("StudentAssignments")
+  submissions   Submission[]
+  learningSessions LearningSession[]
+}
+
+model Course {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  level       String   // A1, A2, B1, B2, C1, C2
+  sections    Section[]
+}
+
+model Section {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  order       Int
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id])
+  topics      Topic[]
+}
+
+model Topic {
+  id          String   @id @default(cuid())
+  title       String
+  content     String   // 富文本内容，可包含HTML
+  order       Int
+  sectionId   String
+  section     Section  @relation(fields: [sectionId], references: [id])
+  exercises   Exercise[]
+  flashcards  Flashcard[]   // 新增：一对多关系
+  learningSessions LearningSession[]
+}
+
+model Exercise {
+  id          String   @id @default(cuid())
+  type        String   // "single_choice", "multiple_choice", "fill_blank", "speaking"
+  question    String
+  options     String?  // JSON字符串存储选项
+  answer      String   // 答案（JSON或文本）
+  explanation String?
+  topicId     String
+  topic       Topic    @relation(fields: [topicId], references: [id])
+  assignments Assignment[]
+}
+model Flashcard {
+  id        String   @id @default(cuid())
+  front     String   // 单词/短语
+  back      String   // 释义/例句
+  topicId   String
+  topic     Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Progress {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  sectionId String
+  completed Boolean  @default(false)
+  score     Int?     // 章节得分
+  updatedAt DateTime @updatedAt
+}
+
+model ExerciseRecord {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  exerciseId String
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  isCorrect  Boolean
+  answeredAt DateTime @default(now())
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Assignment {
+  id         String   @id @default(cuid())
+  teacherId  String
+  teacher    User     @relation("TeacherAssignments", fields: [teacherId], references: [id])
+  studentId  String
+  student    User     @relation("StudentAssignments", fields: [studentId], references: [id])
+  exerciseId String
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  dueDate    DateTime?
+  status     String   @default("assigned")  // "assigned", "submitted", "graded"
+  assignedAt DateTime @default(now())
+  submissions Submission[]
+}
+
+model Submission {
+  id           String   @id @default(cuid())
+  assignmentId String
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  answer       String   // 学生答案（JSON或文本）
+  score        Int?     // 教师评分
+  feedback     String?  // 教师反馈
+  submittedAt  DateTime @default(now())
+}
+
+model LearningSession {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  startTime DateTime @default(now())
+  endTime   DateTime?
+  duration  Int?     // 学习时长（分钟）
+  topicId   String?
+  topic     Topic?   @relation(fields: [topicId], references: [id])
+  points    Int      @default(0) // 学习积分
+}
