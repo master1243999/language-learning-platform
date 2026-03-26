@@ -28,12 +28,10 @@ export default function TeacherDashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!session) {
+    if (!session || session.user.role !== "teacher") {
       router.push("/");
       return;
     }
-    // 暂时移除角色检查，让页面能够加载
-    // 后续可以通过API调用来验证用户角色
     fetchData();
   }, [session, router]);
 

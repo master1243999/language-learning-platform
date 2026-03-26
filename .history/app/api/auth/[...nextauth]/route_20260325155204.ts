@@ -44,22 +44,8 @@ export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, token }) {
-      if (token.sub) {
-        session.user.id = token.sub
-        // 从数据库中获取最新的用户信息，确保角色是最新的
-        try {
-          const user = await prisma.user.findUnique({
-            where: { id: token.sub }
-          })
-          if (user) {
-            session.user.role = user.role
-          }
-        } catch (error) {
-          console.error('获取用户信息失败:', error)
-        }
-      } else if (token.role) {
-        session.user.role = token.role as string
-      }
+      if (token.sub) session.user.id = token.sub
+      if (token.role) session.user.role = token.role as string
       return session
     },
     async jwt({ token, user }) {

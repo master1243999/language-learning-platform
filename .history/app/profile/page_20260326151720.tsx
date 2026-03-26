@@ -44,84 +44,53 @@ export default function ProfilePage() {
   };
 
   const handleRoleToggle = async () => {
-    console.log('开始执行角色切换函数');
-    if (!session) {
-      console.error('用户未登录，session不存在');
+    if (!session || !session.user) {
+      console.error('用户未登录或用户信息不完整');
       return;
     }
-    if (!session.user) {
-      console.error('用户信息不完整，user不存在');
-      return;
-    }
-    if (!session.user.id) {
-      console.error('用户信息不完整，id不存在');
-      return;
-    }
-    
-    console.log('用户当前角色:', session.user.role);
-    
-    // 确定目标角色，总是切换到相反的角色
-    const currentRole = session.user.role || 'student';
-    const targetRole = currentRole === 'teacher' ? 'student' : 'teacher';
-    
-    console.log('当前角色:', currentRole);
-    console.log('目标角色:', targetRole);
     
     setRoleLoading(true);
     try {
-      console.log('发送API请求到 /api/user/role，目标角色:', targetRole);
+      const newRole = session.user.role === 'teacher' ? 'student' : 'teacher';
+      
+      console.log('开始切换角色:', {
+        currentRole: session.user.role,
+        newRole: newRole
+      });
+      
       const response = await fetch('/api/user/role', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ role: targetRole }),
+        body: JSON.stringify({ role: newRole }),
       });
       
       console.log('API响应状态:', response.status);
-      console.log('API响应状态文本:', response.statusText);
       
       if (response.ok) {
-        console.log('API响应成功，解析响应数据');
         const data = await response.json();
         console.log('API响应数据:', data);
         
-        // 先更新session中的角色
+        // 更新session中的角色
         if (update) {
           console.log('更新session中的角色');
-          try {
-            await update({
-              ...session,
-              user: {
-                ...session.user,
-                role: targetRole,
-              },
-            });
-            console.log('Session更新完成');
-          } catch (updateError) {
-            console.error('Session更新失败:', updateError);
-          }
-        } else {
-          console.error('update函数不存在');
+          await update({
+            ...session,
+            user: {
+              ...session.user,
+              role: newRole,
+            },
+          });
+          console.log('Session更新完成');
         }
         
-        // 使用router.push跳转到教师端仪表盘，保持session状态
-        console.log('跳转到教师端仪表盘');
-        if (targetRole === 'teacher') {
-          console.log('跳转到教师端仪表盘');
-          router.push('/teacher/dashboard');
-        } else {
-          console.log('跳转到学生端首页');
-          router.push('/');
-        }
+        // 重新加载页面以显示新角色
+        console.log('刷新页面');
+        router.refresh();
       } else {
-        console.error('API响应失败');
-        try {
-          const error = await response.json();
-          console.error('切换角色失败:', error);
-        } catch (parseError) {
-          console.error('解析错误响应失败:', parseError);
-        }
+        const error = await response.json();
+        console.error('切换角色失败:', error);
       }
     } catch (error) {
       console.error('切换角色失败:', error);

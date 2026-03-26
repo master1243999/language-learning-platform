@@ -59,23 +59,19 @@ export default function ProfilePage() {
     }
     
     console.log('用户当前角色:', session.user.role);
-    
-    // 确定目标角色，总是切换到相反的角色
-    const currentRole = session.user.role || 'student';
-    const targetRole = currentRole === 'teacher' ? 'student' : 'teacher';
-    
-    console.log('当前角色:', currentRole);
-    console.log('目标角色:', targetRole);
-    
     setRoleLoading(true);
     try {
-      console.log('发送API请求到 /api/user/role，目标角色:', targetRole);
+      const newRole = session.user.role === 'teacher' ? 'student' : 'teacher';
+      
+      console.log('准备切换到新角色:', newRole);
+      
+      console.log('发送API请求到 /api/user/role');
       const response = await fetch('/api/user/role', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ role: targetRole }),
+        body: JSON.stringify({ role: newRole }),
       });
       
       console.log('API响应状态:', response.status);
@@ -86,7 +82,7 @@ export default function ProfilePage() {
         const data = await response.json();
         console.log('API响应数据:', data);
         
-        // 先更新session中的角色
+        // 更新session中的角色
         if (update) {
           console.log('更新session中的角色');
           try {
@@ -94,7 +90,7 @@ export default function ProfilePage() {
               ...session,
               user: {
                 ...session.user,
-                role: targetRole,
+                role: newRole,
               },
             });
             console.log('Session更新完成');
@@ -105,9 +101,9 @@ export default function ProfilePage() {
           console.error('update函数不存在');
         }
         
-        // 使用router.push跳转到教师端仪表盘，保持session状态
-        console.log('跳转到教师端仪表盘');
-        if (targetRole === 'teacher') {
+        // 跳转到相应的页面
+        console.log('准备跳转到新角色页面');
+        if (newRole === 'teacher') {
           console.log('跳转到教师端仪表盘');
           router.push('/teacher/dashboard');
         } else {

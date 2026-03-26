@@ -86,7 +86,7 @@ export default function ProfilePage() {
         const data = await response.json();
         console.log('API响应数据:', data);
         
-        // 先更新session中的角色
+        // 更新session中的角色
         if (update) {
           console.log('更新session中的角色');
           try {
@@ -105,8 +105,8 @@ export default function ProfilePage() {
           console.error('update函数不存在');
         }
         
-        // 使用router.push跳转到教师端仪表盘，保持session状态
-        console.log('跳转到教师端仪表盘');
+        // 跳转到相应的页面
+        console.log('准备跳转到新角色页面');
         if (targetRole === 'teacher') {
           console.log('跳转到教师端仪表盘');
           router.push('/teacher/dashboard');

@@ -105,14 +105,19 @@ export default function ProfilePage() {
           console.error('update函数不存在');
         }
         
-        // 使用router.push跳转到教师端仪表盘，保持session状态
-        console.log('跳转到教师端仪表盘');
+        // 强制重新加载页面，确保session被更新
+        console.log('强制重新加载页面');
         if (targetRole === 'teacher') {
           console.log('跳转到教师端仪表盘');
-          router.push('/teacher/dashboard');
+          // 先刷新页面，再跳转到教师端仪表盘
+          window.location.href = '/profile';
+          // 延迟跳转到教师端仪表盘，确保session已经更新
+          setTimeout(() => {
+            window.location.href = '/teacher/dashboard';
+          }, 1000);
         } else {
           console.log('跳转到学生端首页');
-          router.push('/');
+          window.location.href = '/';
         }
       } else {
         console.error('API响应失败');
