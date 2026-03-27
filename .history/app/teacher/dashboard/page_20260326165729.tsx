@@ -133,14 +133,14 @@ export default function TeacherDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-modern pb-20 relative">
-      <div className="container mx-auto px-4 py-8 relative z-10">
+    <div className="min-h-screen bg-emerald-50 pb-20">
+      <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold text-gray-800 page-title">教师管理面板</h1>
+          <h1 className="text-2xl font-bold text-gray-800">教师管理面板</h1>
           <button
             onClick={handleRoleToggle}
             disabled={roleLoading}
-            className="bg-emerald-600 text-white py-2 px-4 rounded-lg btn-modern flex items-center disabled:opacity-50"
+            className="bg-emerald-600 text-white py-2 px-4 rounded-lg hover:bg-emerald-700 transition-colors flex items-center"
           >
             {roleLoading ? (
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
@@ -157,7 +157,7 @@ export default function TeacherDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <button
             onClick={() => router.push("/teacher/courses/create")}
-            className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg p-6 flex items-center justify-between btn-modern"
+            className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg p-6 flex items-center justify-between shadow-md hover:shadow-lg transition-shadow"
           >
             <div>
               <h2 className="text-xl font-semibold mb-2">创建课程</h2>
@@ -167,7 +167,7 @@ export default function TeacherDashboard() {
           </button>
           <button
             onClick={() => router.push("/teacher/assignments")}
-            className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg p-6 flex items-center justify-between btn-modern"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg p-6 flex items-center justify-between shadow-md hover:shadow-lg transition-shadow"
           >
             <div>
               <h2 className="text-xl font-semibold mb-2">布置作业</h2>
@@ -177,7 +177,7 @@ export default function TeacherDashboard() {
           </button>
           <button
             onClick={() => router.push("/teacher/grading")}
-            className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg p-6 flex items-center justify-between btn-modern"
+            className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg p-6 flex items-center justify-between shadow-md hover:shadow-lg transition-shadow"
           >
             <div>
               <h2 className="text-xl font-semibold mb-2">批阅作业</h2>
@@ -188,7 +188,7 @@ export default function TeacherDashboard() {
         </div>
 
         {/* 待批改作业 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-800">待批改作业</h2>
             <button
@@ -231,7 +231,7 @@ export default function TeacherDashboard() {
         </div>
 
         {/* 我的课程 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">我的课程</h2>
           {courses.length === 0 ? (
             <p className="text-gray-500">暂无课程</p>
@@ -273,7 +273,7 @@ export default function TeacherDashboard() {
         </div>
 
         {/* 学生管理 */}
-        <div className="card-modern card-glow p-6">
+        <div className="bg-white rounded-lg shadow-sm p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">学生管理</h2>
           <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 cursor-pointer" onClick={() => router.push("/teacher/students")}>
             <div className="flex items-center">

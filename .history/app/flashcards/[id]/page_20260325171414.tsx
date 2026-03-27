@@ -22,21 +22,9 @@ export default function FlashcardsPage() {
   useEffect(() => {
     const fetchFlashcards = async () => {
       try {
-        // 确保id是字符串类型
-        const topicId = typeof id === 'string' ? id : '';
-        if (!topicId) {
-          console.error("话题ID无效");
-          setLoading(false);
-          return;
-        }
-        
-        const response = await fetch(`/api/topics/${topicId}`);
-        if (!response.ok) {
-          throw new Error(`API响应失败: ${response.status}`);
-        }
+        const response = await fetch(`/api/topics/${id}`);
         const data = await response.json();
-        console.log("获取到的闪卡数据:", data.flashcards);
-        setFlashcards(data.flashcards || []);
+        setFlashcards(data.flashcards);
       } catch (error) {
         console.error("获取闪卡失败:", error);
       } finally {

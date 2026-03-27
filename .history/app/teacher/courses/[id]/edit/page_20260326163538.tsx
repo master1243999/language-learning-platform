@@ -22,9 +22,7 @@ export default function EditCourse() {
   const [level, setLevel] = useState("A1");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState("");
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   if (!session || session.user.role !== "teacher") {
     router.push("/");
@@ -81,30 +79,6 @@ export default function EditCourse() {
     }
   };
 
-  const handleDelete = async () => {
-    setDeleting(true);
-    setError("");
-
-    try {
-      const response = await fetch(`/api/courses/${courseId}`, {
-        method: "DELETE",
-      });
-
-      if (response.ok) {
-        router.push("/teacher/dashboard");
-      } else {
-        const errorData = await response.json();
-        setError(errorData.error || "删除课程失败");
-        setShowDeleteConfirm(false);
-      }
-    } catch (error) {
-      setError("删除课程失败，请稍后重试");
-      setShowDeleteConfirm(false);
-    } finally {
-      setDeleting(false);
-    }
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-emerald-50 flex items-center justify-center">
@@ -133,10 +107,10 @@ export default function EditCourse() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-modern pb-20 relative">
-      <div className="container mx-auto px-4 py-8 relative z-10">
+    <div className="min-h-screen bg-emerald-50 pb-20">
+      <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-2xl font-bold text-gray-800 mb-6 page-title">编辑课程</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mb-6">编辑课程</h1>
           
           {error && (
             <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
@@ -144,7 +118,7 @@ export default function EditCourse() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="card-modern card-glow p-6">
+          <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm p-6">
             <div className="mb-4">
               <label htmlFor="title" className="block text-gray-700 font-medium mb-2">
                 课程标题
@@ -155,7 +129,7 @@ export default function EditCourse() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
-                className="w-full input-modern px-4 py-3"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -168,7 +142,7 @@ export default function EditCourse() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
-                className="w-full input-modern px-4 py-3"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
               ></textarea>
             </div>
 
@@ -181,7 +155,7 @@ export default function EditCourse() {
                 value={level}
                 onChange={(e) => setLevel(e.target.value)}
                 required
-                className="w-full input-modern px-4 py-3"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 <option value="A1">A1 - 初级</option>
                 <option value="A2">A2 - 中级</option>
@@ -192,7 +166,7 @@ export default function EditCourse() {
               </select>
             </div>
 
-            <div className="flex flex-col sm:flex-row justify-between gap-4">
+            <div className="flex justify-between">
               <button
                 type="button"
                 onClick={() => router.push("/teacher/dashboard")}
@@ -200,49 +174,15 @@ export default function EditCourse() {
               >
                 取消
               </button>
-              <div className="flex gap-4">
-                <button
-                  type="button"
-                  onClick={() => setShowDeleteConfirm(true)}
-                  className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors flex-1"
-                >
-                  删除课程
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="bg-emerald-600 text-white py-2 px-4 rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50 flex-1"
-                >
-                  {saving ? "保存中..." : "保存更改"}
-                </button>
-              </div>
+              <button
+                type="submit"
+                disabled={saving}
+                className="bg-emerald-600 text-white py-2 px-4 rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50"
+              >
+                {saving ? "保存中..." : "保存更改"}
+              </button>
             </div>
           </form>
-
-          {/* 删除确认弹窗 */}
-          {showDeleteConfirm && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">确认删除</h3>
-                <p className="text-gray-600 mb-6">您确定要删除课程 "{course?.title}" 吗？此操作不可撤销。</p>
-                <div className="flex gap-4 justify-end">
-                  <button
-                    onClick={() => setShowDeleteConfirm(false)}
-                    className="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    取消
-                  </button>
-                  <button
-                    onClick={handleDelete}
-                    disabled={deleting}
-                    className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
-                  >
-                    {deleting ? "删除中..." : "确认删除"}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

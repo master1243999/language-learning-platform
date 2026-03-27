@@ -88,7 +88,7 @@ export default function Home() {
         )}
 
         {/* 功能按钮 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <button
             onClick={() => router.push("/courses")}
             className="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg p-6 flex items-center justify-between btn-modern relative z-10"
@@ -109,67 +109,6 @@ export default function Home() {
             </div>
             <MessageSquare size={24} />
           </button>
-        </div>
-
-        {/* 学习功能卡片 */}
-        <h2 className="text-xl font-semibold text-gray-800 mb-6 page-title">学习工具</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {/* 词汇学习卡片 */}
-          <div className="card-modern card-glow p-6 relative z-10 cursor-pointer transition-all duration-300 hover:-translate-y-2" onClick={() => router.push("/flashcards/1")}>
-            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mb-4">
-              <span className="text-2xl">📝</span>
-            </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">词汇学习</h3>
-            <p className="text-gray-600 text-sm">通过闪卡系统学习新词汇</p>
-          </div>
-          
-          {/* 口语练习卡片 */}
-          <div className="card-modern card-glow p-6 relative z-10 cursor-pointer transition-all duration-300 hover:-translate-y-2" onClick={() => router.push("/ai")}>
-            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-red-600 mb-4">
-              <span className="text-2xl">🎤</span>
-            </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">口语练习</h3>
-            <p className="text-gray-600 text-sm">与AI对话练习口语表达</p>
-          </div>
-          
-          {/* 学习计划卡片 */}
-          <div className="card-modern card-glow p-6 relative z-10 cursor-pointer transition-all duration-300 hover:-translate-y-2">
-            <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 mb-4">
-              <span className="text-2xl">📅</span>
-            </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">学习计划</h3>
-            <p className="text-gray-600 text-sm">制定并跟踪学习目标</p>
-          </div>
-          
-          {/* 排行榜卡片 */}
-          <div className="card-modern card-glow p-6 relative z-10 cursor-pointer transition-all duration-300 hover:-translate-y-2">
-            <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mb-4">
-              <span className="text-2xl">🏆</span>
-            </div>
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">学习排行榜</h3>
-            <p className="text-gray-600 text-sm">查看学习排名和成就</p>
-          </div>
-        </div>
-
-        {/* 学习统计卡片 */}
-        <h2 className="text-xl font-semibold text-gray-800 mb-6 page-title">学习统计</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="card-modern card-glow p-6 relative z-10">
-            <div className="text-3xl font-bold text-emerald-600 mb-2">120</div>
-            <p className="text-gray-600">学习时长 (分钟)</p>
-          </div>
-          <div className="card-modern card-glow p-6 relative z-10">
-            <div className="text-3xl font-bold text-blue-600 mb-2">45</div>
-            <p className="text-gray-600">完成练习</p>
-          </div>
-          <div className="card-modern card-glow p-6 relative z-10">
-            <div className="text-3xl font-bold text-purple-600 mb-2">320</div>
-            <p className="text-gray-600">掌握词汇</p>
-          </div>
-          <div className="card-modern card-glow p-6 relative z-10">
-            <div className="text-3xl font-bold text-amber-600 mb-2">7</div>
-            <p className="text-gray-600">连续学习天数</p>
-          </div>
         </div>
       </div>
       <Navbar />

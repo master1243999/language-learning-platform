@@ -1,34 +1,44 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { signIn } = useSession();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setLoading(true);
+    
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, password }),
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
       });
-      const data = await res.json();
-      if (res.ok) {
-        alert("注册成功！请登录");
-        router.push("/login");
+      
+      if (response.ok) {
+        await signIn('credentials', {
+          email,
+          password,
+          redirect: false,
+        });
+        router.push('/');
       } else {
-        setError(data.error || "注册失败，请重试");
+        const errorData = await response.json();
+        setError(errorData.error || '注册失败');
       }
-    } catch (err) {
-      setError("网络错误，请重试");
+    } catch (error) {
+      setError('注册失败，请稍后重试');
     } finally {
       setLoading(false);
     }
@@ -37,8 +47,8 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-modern p-4">
       <div className="w-full max-w-md relative z-10">
-        <div className="card-modern card-glow p-6">
-          <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center page-title">注册</h1>
+        <div className="card-modern">
+          <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">注册</h1>
           
           {error && (
             <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
@@ -57,7 +67,7 @@ export default function RegisterPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="w-full input-modern px-4 py-2"
+                className="w-full input-modern"
               />
             </div>
             
@@ -71,7 +81,7 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full input-modern px-4 py-2"
+                className="w-full input-modern"
               />
             </div>
             
@@ -86,7 +96,7 @@ export default function RegisterPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full input-modern px-4 py-2"
+                className="w-full input-modern"
               />
             </div>
             
@@ -95,12 +105,7 @@ export default function RegisterPage() {
               disabled={loading}
               className="w-full bg-emerald-600 text-white py-3 px-4 rounded-lg btn-modern disabled:opacity-50"
             >
-              {loading ? (
-                <div className="flex items-center justify-center">
-                  <div className="loading-spinner mr-2"></div>
-                  注册中...
-                </div>
-              ) : '注册'}
+              {loading ? '注册中...' : '注册'}
             </button>
             
             <div className="mt-4 text-center">

@@ -136,7 +136,7 @@ export default function TeacherDashboard() {
     <div className="min-h-screen bg-gradient-modern pb-20 relative">
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold text-gray-800 page-title">教师管理面板</h1>
+          <h1 className="text-2xl font-bold text-gray-800">教师管理面板</h1>
           <button
             onClick={handleRoleToggle}
             disabled={roleLoading}
@@ -188,7 +188,7 @@ export default function TeacherDashboard() {
         </div>
 
         {/* 待批改作业 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="card-modern mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-800">待批改作业</h2>
             <button
@@ -231,7 +231,7 @@ export default function TeacherDashboard() {
         </div>
 
         {/* 我的课程 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="card-modern mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">我的课程</h2>
           {courses.length === 0 ? (
             <p className="text-gray-500">暂无课程</p>
@@ -273,7 +273,7 @@ export default function TeacherDashboard() {
         </div>
 
         {/* 学生管理 */}
-        <div className="card-modern card-glow p-6">
+        <div className="card-modern">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">学生管理</h2>
           <div className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:bg-gray-50 cursor-pointer" onClick={() => router.push("/teacher/students")}>
             <div className="flex items-center">

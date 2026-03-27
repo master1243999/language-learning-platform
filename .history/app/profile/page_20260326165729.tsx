@@ -159,12 +159,12 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-modern pb-20 relative">
-      <div className="container mx-auto px-4 py-8 relative z-10">
-        <h1 className="text-2xl font-bold text-gray-800 mb-8 page-title">个人资料</h1>
+    <div className="min-h-screen bg-emerald-50 pb-20">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold text-gray-800 mb-8">个人资料</h1>
         
         {/* 用户基本信息 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 font-semibold text-xl mr-4">
@@ -179,7 +179,7 @@ export default function ProfilePage() {
             <button
               onClick={handleRoleToggle}
               disabled={roleLoading}
-              className="bg-emerald-600 text-white py-2 px-4 rounded-lg btn-modern flex items-center disabled:opacity-50"
+              className="bg-emerald-600 text-white py-2 px-4 rounded-lg hover:bg-emerald-700 transition-colors flex items-center"
             >
               {roleLoading ? (
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
@@ -193,7 +193,7 @@ export default function ProfilePage() {
         </div>
 
         {/* 学习统计 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">学习统计</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-emerald-50 p-4 rounded-lg">
@@ -228,7 +228,7 @@ export default function ProfilePage() {
         </div>
 
         {/* 最近学习活动 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">最近活动</h2>
           <div className="space-y-3">
             {/* 模拟最近学习活动数据 */}
@@ -263,7 +263,7 @@ export default function ProfilePage() {
         </div>
 
         {/* 我的课程 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">我的课程</h2>
           <div className="space-y-3">
             {/* 模拟我的课程数据 */}
@@ -287,7 +287,7 @@ export default function ProfilePage() {
         {/* 退出登录按钮 */}
         <button
           onClick={handleSignOut}
-          className="w-full bg-red-600 text-white py-3 px-4 rounded-lg btn-modern hover:bg-red-700"
+          className="w-full bg-red-600 text-white py-3 px-4 rounded-lg hover:bg-red-700 transition-colors"
         >
           退出登录
         </button>

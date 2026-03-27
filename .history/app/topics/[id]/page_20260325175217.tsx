@@ -62,18 +62,6 @@ export default function TopicDetailPage() {
           </Link>
         ))}
       </div>
-      
-      <h2 className="text-xl font-semibold mb-4 mt-8">闪卡</h2>
-      {topic.flashcards && topic.flashcards.length > 0 && (
-        <div className="mb-6">
-          <Link 
-            href={`/flashcards/${topic.id}`}
-            className="inline-block bg-emerald-600 text-white py-2 px-4 rounded-lg hover:bg-emerald-700 transition-colors"
-          >
-            开始闪卡学习 ({topic.flashcards.length} 张闪卡)
-          </Link>
-        </div>
-      )}
     </div>
   );
 }

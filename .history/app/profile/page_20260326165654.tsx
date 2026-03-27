@@ -161,10 +161,10 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-modern pb-20 relative">
       <div className="container mx-auto px-4 py-8 relative z-10">
-        <h1 className="text-2xl font-bold text-gray-800 mb-8 page-title">个人资料</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-8">个人资料</h1>
         
         {/* 用户基本信息 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="card-modern mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 font-semibold text-xl mr-4">
@@ -193,7 +193,7 @@ export default function ProfilePage() {
         </div>
 
         {/* 学习统计 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="card-modern mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">学习统计</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-emerald-50 p-4 rounded-lg">
@@ -228,7 +228,7 @@ export default function ProfilePage() {
         </div>
 
         {/* 最近学习活动 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="card-modern mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">最近活动</h2>
           <div className="space-y-3">
             {/* 模拟最近学习活动数据 */}
@@ -263,7 +263,7 @@ export default function ProfilePage() {
         </div>
 
         {/* 我的课程 */}
-        <div className="card-modern card-glow p-6 mb-8">
+        <div className="card-modern mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">我的课程</h2>
           <div className="space-y-3">
             {/* 模拟我的课程数据 */}
